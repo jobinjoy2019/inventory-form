@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory Form</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    .section { margin-bottom: 2em; }
+    label { display: block; margin-top: 0.5em; }
+    input, select { padding: 5px; margin-top: 5px; }
+    button { margin-top: 10px; padding: 10px 20px; }
+  </style>
+</head>
+<body>
+
+  <h1>Kitchen & Sanitary Inventory</h1>
+
+  <!-- Grocery Section -->
+  <div class="section" id="grocerySection">
+    <h2>Grocery Items</h2>
+    <form id="groceryForm">
+      <label>
+        Item:
+        <input type="text" name="item" required>
+      </label>
+      <label>
+        Unit:
+        <select name="unit" required>
+          <option value="kg">kg</option>
+          <option value="gms">gms</option>
+          <option value="packets">packets</option>
+        </select>
+      </label>
+      <label>
+        Quantity:
+        <input type="number" name="quantity" required>
+      </label>
+      <button type="submit">Add Grocery Item</button>
+    </form>
+  </div>
+
+  <!-- Disposables & Cleaning Section -->
+  <div class="section" id="disposablesSection">
+    <h2>Disposables / Cleaning Supplies</h2>
+    <form id="disposableForm">
+      <label>
+        Item:
+        <input type="text" name="item" required>
+      </label>
+      <label>
+        To Purchase:
+        <select name="toPurchase" required>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </label>
+      <button type="submit">Add Disposable Item</button>
+    </form>
+  </div>
+
+  <div id="status"></div>
+
+  <script>
+    const scriptURL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL"; // Replace this
+
+    document.getElementById("groceryForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        category: "Grocery",
+        item: form.item.value,
+        unit: form.unit.value,
+        quantity: form.quantity.value
+      };
+      submitToSheet(data);
+      form.reset();
+    });
+
+    document.getElementById("disposableForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        category: "Disposable/Cleaning",
+        item: form.item.value,
+        toPurchase: form.toPurchase.value
+      };
+      submitToSheet(data);
+      form.reset();
+    });
+
+    function submitToSheet(data) {
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById("status").textContent = "Entry saved successfully!";
+        } else {
+          throw new Error("Network error");
+        }
+      })
+      .catch(error => {
+        document.getElementById("status").textContent = "Error saving data: " + error.message;
+      });
+    }
+  </script>
+
+</body>
+</html>
