@@ -3,197 +3,192 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inventory Form</title>
+  <title>Hospitality Inventory Form</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Open Sans', sans-serif;
+      background-color: #f7f9fb;
+      color: #333;
       margin: 0;
       padding: 20px;
     }
-
-    h2 {
+    h1 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      color: #2c3e50;
     }
-
     form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
       max-width: 900px;
       margin: auto;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     fieldset {
-      border: 1px solid #ccc;
-      margin-bottom: 20px;
-      padding: 15px;
-      border-radius: 8px;
+      border: none;
+      margin-bottom: 25px;
     }
-
     legend {
       font-weight: bold;
-      padding: 0 10px;
-    }
-
-    .item-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      font-size: 1.2em;
+      color: #2980b9;
       margin-bottom: 10px;
-      align-items: center;
     }
-
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .form-group {
+      flex: 1 1 45%;
+      margin: 8px 0;
+    }
     label {
-      flex: 1 0 150px;
-    }
-
-    input[type="number"],
-    input[type="text"],
-    select {
-      flex: 1 0 120px;
-      padding: 6px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-
-    button {
       display: block;
-      margin: 0 auto;
-      padding: 10px 20px;
-      background: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 4px;
     }
-
+    input[type="text"], select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .submit-btn {
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+    }
     button:hover {
-      background: #0056b3;
+      background-color: #2980b9;
+    }
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <h2>Kitchen & Sanitary Inventory Form</h2>
-  <form id="inventory-form">
+  <h1>Hospitality Inventory Form</h1>
+  <form id="inventoryForm">
     <!-- Provisions -->
     <fieldset>
       <legend>Provisions</legend>
-      ${['Oil', 'Ghee', 'Besan', 'Rice', 'Poha', 'Sooji', 'Moong daal', 'Chana daal', 'Toor daal', 'Pappad', 'Tea', 'Sugar', 'Vermicelli', 'Peanuts', 'Cashew', 'Kishmish', 'Sev', 'Corn Starch', 'Mustard', 'Salt', 'Instant Coffee Powder'].map(item => `
-        <div class="item-row">
-          <label>${item}</label>
-          <input type="number" name="${item}" step="0.1" placeholder="Qty" />
-          <select name="${item}-unit">
-            <option value="kg">kg</option>
-            <option value="gms">gms</option>
-            <option value="packets">packets</option>
-          </select>
-        </div>
-      `).join('')}
+      <div class="form-row">
+        ${["Oil", "Ghee", "Besan", "Rice", "Poha", "Sooji", "Moong daal", "Chana daal", "Toor daal", "Pappad", "Tea", "Sugar", "Vermicelli", "Peanuts", "Cashew", "Kishmish", "Sev", "Corn Starch", "Mustard", "Salt", "Instant Coffee Powder"].map(item => `
+          <div class="form-group">
+            <label>${item}</label>
+            <input type="text" name="${item}_provision" placeholder="e.g. 2kg or 3 packets">
+          </div>
+        `).join('')}
+      </div>
     </fieldset>
 
     <!-- Masala -->
     <fieldset>
       <legend>Masala</legend>
-      ${['Red Chilli powder', 'Turmeric', 'Coriander Powder', 'Garam Masala', 'Dried red Chillies', 'Whole Jeera', 'Jeera Powder', 'Ginger Garlic Paste', 'Chicken Masala', 'Kitchen King (everest)', 'Meat Masala', 'Sambhar Masala', 'Kulambu', 'Chicken Kebab', 'Elaichi (Cardamom)', 'Dalchini (Cinnamon)', 'Laung (Cloves)', 'Kali Mirch (Black Pepper)', 'Chakri Fool (Star Anise)', 'Badi Elaichi (Black Cardamom)', 'Tez Patta (Bay leaves)', 'Shahi Jeera', 'Heeng (Asafoetida)', 'Saunf', 'Ajwain', 'Kauri Methi'].map(item => `
-        <div class="item-row">
-          <label>${item}</label>
-          <input type="number" name="${item}" step="0.1" placeholder="Qty" />
-          <select name="${item}-unit">
-            <option value="kg">kg</option>
-            <option value="gms">gms</option>
-            <option value="packets">packets</option>
-          </select>
-        </div>
-      `).join('')}
+      <div class="form-row">
+        ${["Red Chilli powder", "Turmeric", "Coriander Powder", "Garam Masala", "Dried red Chillies", "Whole Jeera", "Jeera Powder", "Ginger Garlic Paste", "Chicken Masala", "Kitchen King (everest)", "Meat Masala", "Sambhar Masala", "Kulambu", "Chicken Kebab", "Elaichi (Cardamom)", "Dalchini (Cinnamon)", "Laung (Cloves)", "Kali Mirch (Black Pepper)", "Chakri Fool ( Star Anise)", "Badi Elaichi (Black Cardamom)", "Tez Patta (Bay leaves)", "Shahi Jeera", "Heeng (Asafoetida)", "Saunf", "Ajwain", "Kauri Methi"].map(item => `
+          <div class="form-group">
+            <label>${item}</label>
+            <input type="text" name="${item}_masala" placeholder="e.g. 500g or 1 packet">
+          </div>
+        `).join('')}
+      </div>
     </fieldset>
 
     <!-- Condiments -->
     <fieldset>
       <legend>Condiments</legend>
-      ${['Ketchup', 'Mayo', 'Pickle'].map(item => `
-        <div class="item-row">
-          <label>${item}</label>
-          <select name="${item}">
-            <option value="">Select</option>
-            <option value="Need to purchase">Need to purchase</option>
-            <option value="Available">Available</option>
-          </select>
-        </div>
-      `).join('')}
+      <div class="form-row">
+        ${["Ketchup", "Mayo", "Pickle"].map(item => `
+          <div class="form-group">
+            <label>${item}</label>
+            <select name="${item}_condiment">
+              <option value="">-- Select --</option>
+              <option value="Needed">Needed</option>
+              <option value="Not Needed">Not Needed</option>
+            </select>
+          </div>
+        `).join('')}
+      </div>
     </fieldset>
 
-    <!-- Disposables -->
-    <fieldset>
-      <legend>Disposables</legend>
-      ${['Juice cups', 'Tea cups', 'Paper Napkins', 'Kitchen cloth towels', 'Serving gloves', 'Paper plates'].map(item => `
-        <div class="item-row">
-          <label>${item}</label>
-          <select name="${item}">
-            <option value="">Select</option>
-            <option value="Need to purchase">Need to purchase</option>
-            <option value="Available">Available</option>
-          </select>
+    <!-- Disposables, Packaging, Cleaning -->
+    ${[
+      { title: "Disposables", items: ["Juice cups", "Tea cups", "Paper Napkins", "Kitchen cloth towels", "Serving gloves", "Paper plates"] },
+      { title: "Packaging Material", items: ["Foil bags 10x14", "Foil bags 7x9", "Rubber bands", "Sandwich wrap", "Aluminium foil", "Polythene bags"] },
+      { title: "Cleaning Products", items: ["Dish liquid (Vim)", "Dish bar soap", "Handwash liquid", "Garbage bags", "Phenyl floor cleaner", "Dish scrubber", "Disposable kitchen wipe roll", "Mop", "Domex/ Harpic", "Colin Spray", "Cleaning gloves", "Floor wipers", "Plastic broom", "Large floor mop"] }
+    ].map(section => `
+      <fieldset>
+        <legend>${section.title}</legend>
+        <div class="form-row">
+          ${section.items.map(item => `
+            <div class="form-group">
+              <label>${item}</label>
+              <select name="${item.replace(/\s+/g, "_")}">
+                <option value="">-- Select --</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          `).join('')}
         </div>
-      `).join('')}
-    </fieldset>
+      </fieldset>
+    `).join('')}
 
-    <!-- Packaging material -->
-    <fieldset>
-      <legend>Packaging Material</legend>
-      ${['Foil bags 10x14', 'Foil bags 7x9', 'Rubber bands', 'Sandwich wrap', 'Aluminium foil', 'Polythene bags'].map(item => `
-        <div class="item-row">
-          <label>${item}</label>
-          <select name="${item}">
-            <option value="">Select</option>
-            <option value="Need to purchase">Need to purchase</option>
-            <option value="Available">Available</option>
-          </select>
-        </div>
-      `).join('')}
-    </fieldset>
-
-    <!-- Cleaning Products -->
-    <fieldset>
-      <legend>Cleaning Products</legend>
-      ${['Dish liquid (Vim)', 'Dish bar soap', 'Handwash liquid', 'Garbage bags', 'Phenyl floor cleaner', 'Dish scrubber', 'Disposable kitchen wipe roll', 'Mop', 'Domex/ Harpic', 'Colin Spray', 'Cleaning gloves', 'Floor wipers', 'Plastic broom', 'Large floor mop'].map(item => `
-        <div class="item-row">
-          <label>${item}</label>
-          <select name="${item}">
-            <option value="">Select</option>
-            <option value="Need to purchase">Need to purchase</option>
-            <option value="Available">Available</option>
-          </select>
-        </div>
-      `).join('')}
-    </fieldset>
-
-    <button type="submit">Submit</button>
+    <div class="submit-btn">
+      <button type="submit">Submit</button>
+    </div>
+    <div class="message" id="formMessage"></div>
   </form>
 
   <script>
-    document.getElementById('inventory-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      const data = {};
-      for (const [key, value] of formData.entries()) {
-        data[key] = value;
-      }
+    const form = document.getElementById('inventoryForm');
+    const messageBox = document.getElementById('formMessage');
 
-      fetch('https://script.google.com/macros/s/YOUR_DEPLOYED_URL/exec', {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const formObject = {};
+      formData.forEach((value, key) => {
+        formObject[key] = value;
       });
 
-      alert("Submitted successfully!");
-      this.reset();
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbx66igKTjVFYopJmkskFZApq7DigL5VwhtPq0Ia4zPl5-tUGlVV4Qbek-YZGA8zfINT/exec", {
+          method: "POST",
+          body: JSON.stringify(formObject),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const result = await response.json();
+        if (result.result === "success") {
+          messageBox.textContent = "Form submitted successfully!";
+          messageBox.style.color = "green";
+          form.reset();
+        } else {
+          messageBox.textContent = "Submission failed. Please try again.";
+          messageBox.style.color = "red";
+        }
+      } catch (err) {
+        console.error(err);
+        messageBox.textContent = "An error occurred while submitting the form.";
+        messageBox.style.color = "red";
+      }
     });
   </script>
 </body>
