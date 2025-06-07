@@ -107,7 +107,7 @@ transform: translateX(24px);
    </div>
   </header>
   <main class="container mx-auto px-4 py-8">
-  <form id="inventory-form" method="POST" action="https://script.google.com/macros/s/AKfycbzOzsmbEzqiR-cyiMYnAg34zPfZjvw1Zc0UtYSqKWlFjtq2VE3EYeSeL5tRlBJxSe5y/exec">
+  <form id="inventory-form" method="POST">
    <div class="bg-gradient-to-br from-white to-blue-50 rounded-lg shadow-md p-6 mb-8 border border-blue-100">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
      <div>
@@ -1443,7 +1443,10 @@ icon.classList.add('ri-arrow-up-s-line');
         submitButton.disabled = true;
         submitButton.innerHTML = '<i class="ri-loader-2-line animate-spin mr-2"></i> Submitting...';
 
-        fetch(form.action, {
+        // Use the hardcoded App Script Web App URL here
+        const appScriptUrl = "https://script.google.com/macros/s/AKfycbzOzsmbEzqiR-cyiMYnAg34zPfZjvw1Zc0UtYSqKWlFjtq2VE3EYeSeL5tRlBJxSe5y/exec";
+
+        fetch(appScriptUrl, {
           method: "POST",
           body: new FormData(form)
         }).then(response => {
