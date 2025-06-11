@@ -207,324 +207,212 @@
               <div class="category-content hidden px-4 md:px-6 py-4 bg-white" id="provisions-content">
                 <div class="grid grid-cols-1 gap-4">
                   <div class="provisions-items space-y-4">
-                    <div class="item-row grid grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 font-medium">
-                      <div class="col-span-6 sm:col-span-4">Item</div>
-                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Weight (g)</div>
-                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Packets</div>
-                      <div class-="col-span-3 text-sm text-gray-600 block sm:hidden">Qty/Pkt</div>
-                      <div class="col-span-3 sm:col-span-2 text-sm text-gray-600">Status</div>
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 font-medium">
+                      <div class="col-span-6 sm:col-span-6">Item</div>
+                      <div class="col-span-3 text-sm text-gray-600">Weight (g)</div>
+                      <div class="col-span-3 text-sm text-gray-600">Packets</div>
                     </div>
                     <!-- Item Row Template for Provisions -->
                     <script type="text/template" id="provision-item-template">
                       <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                        <div class="col-span-6 sm:col-span-4 flex items-center">{itemName}</div>
+                        <div class="col-span-6 sm:col-span-6 flex items-center">{itemName}</div>
                         <div class="col-span-3 sm:col-span-3">
                           <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="{name_g}" placeholder="0" type="number" />
                         </div>
                         <div class="col-span-3 sm:col-span-3">
                           <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="{name_pkt}" placeholder="0" type="number" />
                         </div>
-                        <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {statusClass}">
-                            {statusText}
-                          </span>
-                        </div>
                       </div>
                     </script>
                     <!-- Provisions Items (Dynamic rendering or hardcoded) -->
                     <!-- Example hardcoded item, others would follow this pattern -->
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Oil</div>
+                      <div class="col-span-6 sm:col-span-6">Oil</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="oil_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="oil_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Ghee</div>
+                      <div class="col-span-6 sm:col-span-6">Ghee</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="ghee_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="ghee_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Besan</div>
+                      <div class="col-span-6 sm:col-span-6">Besan</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="besan_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="besan_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                          Low Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Rice</div>
+                      <div class="col-span-6 sm:col-span-6">Rice</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="rice_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="rice_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Poha</div>
+                      <div class="col-span-6 sm:col-span-6">Poha</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="poha_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="poha_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Sooji</div>
+                      <div class="col-span-6 sm:col-span-6">Sooji</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sooji_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sooji_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                          Out of Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Moong daal</div>
+                      <div class="col-span-6 sm:col-span-6">Moong daal</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="moong_daal_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="moong_daal_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Chana daal</div>
+                      <div class="col-span-6 sm:col-span-6">Chana daal</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="chana_daal_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="chana_daal_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Toor daal</div>
+                      <div class="col-span-6 sm:col-span-6">Toor daal</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="toor_daal_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="toor_daal_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Pappad</div>
+                      <div class="col-span-6 sm:col-span-6">Pappad</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="pappad_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="pappad_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Tea</div>
+                      <div class="col-span-6 sm:col-span-6">Tea</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="tea_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="tea_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Sugar</div>
+                      <div class="col-span-6 sm:col-span-6">Sugar</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sugar_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sugar_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Vermicelli</div>
+                      <div class="col-span-6 sm:col-span-6">Vermicelli</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="vermicelli_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="vermicelli_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Peanuts</div>
+                      <div class="col-span-6 sm:col-span-6">Peanuts</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="peanuts_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="peanuts_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Cashew</div>
+                      <div class="col-span-6 sm:col-span-6">Cashew</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="cashew_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="cashew_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Kishmish</div>
+                      <div class="col-span-6 sm:col-span-6">Kishmish</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kishmish_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kishmish_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Sev</div>
+                      <div class="col-span-6 sm:col-span-6">Sev</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sev_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sev_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Corn starch</div>
+                      <div class="col-span-6 sm:col-span-6">Corn starch</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="corn_starch_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="corn_starch_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Mustard</div>
+                      <div class="col-span-6 sm:col-span-6">Mustard</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="mustard_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="mustard_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Salt</div>
+                      <div class="col-span-6 sm:col-span-6">Salt</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="salt_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="salt_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
-                      </div>
                     </div>
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 sm:col-span-4">Instant Coffee Powder</div>
+                      <div class="col-span-6 sm:col-span-6">Instant Coffee Powder</div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="instant_coffee_powder_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="instant_coffee_powder_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          In Stock
-                        </span>
                       </div>
                     </div>
                   </div>
@@ -544,9 +432,8 @@
                   <div class="masala-items space-y-4">
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 font-medium">
                       <div class="col-span-6 sm:col-span-6">Item</div>
-                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Weight (g)</div>
-                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Packets</div>
-                      <div class-="col-span-3 text-sm text-gray-600 block sm:hidden">Qty/Pkt</div>
+                      <div class="col-span-3 text-sm text-gray-600">Weight (g)</div>
+                      <div class="col-span-3 text-sm text-gray-600">Packets</div>
                     </div>
                     <!-- Item Row Template for Masala -->
                     <script type="text/template" id="masala-item-template">
@@ -628,7 +515,7 @@
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
                       <div class="col-span-6 sm:col-span-6">Ginger Garlic Paste</div>
                       <div class="col-span-3 sm:col-span-3">
-                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-1 focus:ring-primary outline-none" min="0" name="ginger_garlic_paste_g" placeholder="0" type="number" />
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="ginger_garlic_paste_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="ginger_garlic_paste_pkt" placeholder="0" type="number" />
@@ -790,7 +677,7 @@
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
                       <div class="col-span-6 sm:col-span-6">Kasuri Methi</div>
                       <div class="col-span-3 sm:col-span-3">
-                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-1 focus:ring-primary outline-none" min="0" name="kasuri_methi_g" placeholder="0" type="number" />
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kasuri_methi_g" placeholder="0" type="number" />
                       </div>
                       <div class="col-span-3 sm:col-span-3">
                         <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kasuri_methi_pkt" placeholder="0" type="number" />
@@ -813,9 +700,8 @@
                   <div class="condiments-items space-y-4">
                     <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 font-medium">
                       <div class="col-span-6 sm:col-span-6">Item</div>
-                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Weight (g)</div>
-                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Packets</div>
-                      <div class-="col-span-3 text-sm text-gray-600 block sm:hidden">Qty/Pkt</div>
+                      <div class="col-span-3 text-sm text-gray-600">Weight (g)</div>
+                      <div class="col-span-3 text-sm text-gray-600">Packets</div>
                     </div>
                     <!-- Item Row Template for Condiments -->
                     <script type="text/template" id="condiment-item-template">
@@ -1321,8 +1207,8 @@
         const searchTerm = this.value.toLowerCase();
         const allItems = document.querySelectorAll('.item-row');
         allItems.forEach(item => {
-          if (item.querySelector('.col-span-6')) { // Changed from col-span-4 to col-span-6 for mobile compatibility
-            const itemName = item.querySelector('.col-span-6').textContent.toLowerCase();
+          if (item.querySelector('.col-span-4')) { // Corrected to col-span-4
+            const itemName = item.querySelector('.col-span-4').textContent.toLowerCase();
             if (itemName.includes(searchTerm) || searchTerm === '') {
               item.style.display = '';
             } else {
