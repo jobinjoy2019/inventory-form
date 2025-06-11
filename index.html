@@ -1,17 +1,11 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>
-    Kitchen Inventory Management
-  </title>
-  <script src="https://cdn.tailwindcss.com/3.4.16">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
-  </script>
+  <title>Kitchen Inventory Management</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -21,7 +15,19 @@
             subtitle: ['IBM Plex Serif', 'serif'],
             title: ['Playfair Display', 'serif'],
           },
-          colors: { primary: '#3b82f6', secondary: '#60a5fa' }, borderRadius: { 'none': '0px', 'sm': '4px', DEFAULT: '8px', 'md': '12px', 'lg': '16px', 'xl': '20px', '2xl': '24px', '3xl': '32px', 'full': '9999px', 'button': '8px' }
+          colors: { primary: '#3b82f6', secondary: '#60a5fa' },
+          borderRadius: {
+            'none': '0px',
+            'sm': '4px',
+            DEFAULT: '8px',
+            'md': '12px',
+            'lg': '16px',
+            'xl': '20px',
+            '2xl': '24px',
+            '3xl': '32px',
+            'full': '9999px',
+            'button': '8px'
+          }
         }
       }
     }
@@ -31,8 +37,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;display=swap" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet" />
   <style>
+    /* Custom CSS for icons and input fields */
     :where([class^="ri-"])::before {
-      content: "\f3c2";
+      content: "\f3c2"; /* Fallback icon if specific ones fail to load */
     }
 
     input[type="number"]::-webkit-inner-spin-button,
@@ -45,6 +52,7 @@
       -moz-appearance: textfield;
     }
 
+    /* Styles for category headers */
     .category-header {
       background: linear-gradient(135deg, #6F7CEF 0%, #60a5fa 100%);
       color: white;
@@ -58,10 +66,12 @@
       box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
     }
 
+    /* Styles for item rows on hover */
     .item-row:hover {
       background-color: rgba(59, 130, 246, 0.05);
     }
 
+    /* Custom toggle switch for disposables/packaging/cleaning sections */
     .custom-toggle {
       position: relative;
       display: inline-block;
@@ -109,37 +119,38 @@
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
-
 <body class="bg-gray-50 min-h-screen font-body">
+  <!-- Header Section -->
   <header class="bg-white shadow-sm">
-    <div class="container mx-auto px-4 py-6">
-      <div class="flex justify-between items-center">
-        <img alt="Logo" class="h-16 w-auto" src="images/WCC-New Logo B.png" />
-        <h1 class="text-3xl font-title font-bold text-gray-800">
+    <div class="container mx-auto px-4 py-4 md:py-6">
+      <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+        <img alt="Logo" class="h-12 md:h-16 w-auto mb-2 md:mb-0" src="images/WCC-New Logo B.png" />
+        <h1 class="text-2xl md:text-3xl font-title font-bold text-gray-800 mb-2 md:mb-0">
           Kitchen Inventory Management
         </h1>
-        <div class="flex items-center space-x-4">
-          <div class="text-sm font-subtitle text-gray-600">
-            <span class="block">
-              Date:
-              <span id="current-date">
-                2025-06-06
-              </span>
+        <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 text-sm font-subtitle text-gray-600">
+          <span class="block">
+            Date:
+            <span id="current-date">
+              2025-06-06
             </span>
-            <span class="block">
-              Form ID: INV-
-              <span id="form-id">
-                25060601
-              </span>
+          </span>
+          <span class="block">
+            Form ID: INV-
+            <span id="form-id">
+              25060601
             </span>
-          </div>
+          </span>
         </div>
       </div>
     </div>
   </header>
-  <main class="container mx-auto px-4 py-8">
+
+  <!-- Main Content Area -->
+  <main class="container mx-auto px-4 py-6 md:py-8">
     <div id="pdf-export-container">
       <form id="inventory-form">
+        <!-- General Information Section -->
         <div class="bg-gradient-to-br from-white to-blue-50 rounded-lg shadow-md p-6 mb-8 border border-blue-100">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
@@ -160,500 +171,358 @@
                 name="submitted_by" placeholder="Your Name" type="text" />
             </div>
           </div>
-          <div class="flex items-center justify-between mb-6">
+
+          <!-- Action Buttons and Search -->
+          <div class="flex flex-col sm:flex-row items-center justify-between mb-6 space-y-4 sm:space-y-0">
             <div class="flex items-center space-x-4">
-              <button class="flex items-center text-primary hover:text-primary-dark" id="expand-all" type="button">
-                <i class="ri-arrow-down-s-line ri-lg">
-                </i>
-                <span>
-                  Expand All
-                </span>
+              <button class="flex items-center text-primary hover:text-primary-dark whitespace-nowrap" id="expand-all" type="button">
+                <i class="ri-arrow-down-s-line ri-lg mr-1"></i>
+                <span>Expand All</span>
               </button>
-              <button class="flex items-center text-primary hover:text-primary-dark" id="collapse-all" type="button">
-                <i class="ri-arrow-up-s-line ri-lg">
-                </i>
-                <span>
-                  Collapse All
-                </span>
+              <button class="flex items-center text-primary hover:text-primary-dark whitespace-nowrap" id="collapse-all" type="button">
+                <i class="ri-arrow-up-s-line ri-lg mr-1"></i>
+                <span>Collapse All</span>
               </button>
             </div>
-            <div class="relative">
+            <div class="relative w-full sm:w-auto">
               <input
-                class="pl-10 pr-4 py-2 border border-gray-300 rounded-button focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-button focus:border-primary focus:ring-1 focus:ring-primary outline-none"
                 id="search-items" placeholder="Search items..." type="text" />
               <div
                 class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-400">
-                <i class="ri-search-line">
-                </i>
+                <i class="ri-search-line"></i>
               </div>
             </div>
           </div>
+
+          <!-- Inventory Categories Section -->
           <div class="space-y-6">
             <!-- Provisions Section -->
             <div class="border border-gray-200 rounded-lg overflow-hidden">
               <button class="category-header w-full px-6 py-4 text-left font-medium flex items-center justify-between"
                 data-category="provisions" type="button">
-                <span class="text-lg">
-                  Provisions
-                </span>
-                <i class="ri-arrow-down-s-line ri-lg category-icon">
-                </i>
+                <span class="text-lg">Provisions</span>
+                <i class="ri-arrow-down-s-line ri-lg category-icon"></i>
               </button>
-              <div class="category-content hidden px-6 py-4 bg-white" id="provisions-content">
+              <div class="category-content hidden px-4 md:px-6 py-4 bg-white" id="provisions-content">
                 <div class="grid grid-cols-1 gap-4">
                   <div class="provisions-items space-y-4">
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4 font-medium">
-                        Item
-                      </div>
-                      <div class="col-span-3 text-sm text-gray-600">
-                        Weight (g)
-                      </div>
-                      <div class="col-span-3 text-sm text-gray-600">
-                        Packets
-                      </div>
-                      <div class="col-span-2 text-sm text-gray-600">
-                        Status
-                      </div>
+                    <div class="item-row grid grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 font-medium">
+                      <div class="col-span-6 sm:col-span-4">Item</div>
+                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Weight (g)</div>
+                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Packets</div>
+                      <div class-="col-span-3 text-sm text-gray-600 block sm:hidden">Qty/Pkt</div>
+                      <div class="col-span-3 sm:col-span-2 text-sm text-gray-600">Status</div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Oil
+                    <!-- Item Row Template for Provisions -->
+                    <script type="text/template" id="provision-item-template">
+                      <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                        <div class="col-span-6 sm:col-span-4 flex items-center">{itemName}</div>
+                        <div class="col-span-3 sm:col-span-3">
+                          <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="{name_g}" placeholder="0" type="number" />
+                        </div>
+                        <div class="col-span-3 sm:col-span-3">
+                          <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="{name_pkt}" placeholder="0" type="number" />
+                        </div>
+                        <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {statusClass}">
+                            {statusText}
+                          </span>
+                        </div>
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="oil_g" placeholder="0" type="number" />
+                    </script>
+                    <!-- Provisions Items (Dynamic rendering or hardcoded) -->
+                    <!-- Example hardcoded item, others would follow this pattern -->
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Oil</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="oil_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="oil_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="oil_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Ghee
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Ghee</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="ghee_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="ghee_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="ghee_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="ghee_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Besan
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Besan</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="besan_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="besan_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="besan_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="besan_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                           Low Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Rice
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Rice</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="rice_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="rice_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="rice_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="rice_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Poha
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Poha</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="poha_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="poha_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="poha_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="poha_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <!-- More provisions items -->
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Sooji
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Sooji</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sooji_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="sooji_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sooji_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="sooji_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                           Out of Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Moong daal
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Moong daal</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="moong_daal_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="moong_daal_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="moong_daal_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="moong_daal_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Chana daal
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Chana daal</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="chana_daal_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="chana_daal_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="chana_daal_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="chana_daal_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Toor daal
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Toor daal</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="toor_daal_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="toor_daal_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="toor_daal_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="toor_daal_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Pappad
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Pappad</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="pappad_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="pappad_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="pappad_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="pappad_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Tea
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Tea</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="tea_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="tea_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="tea_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="tea_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Sugar
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Sugar</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sugar_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="sugar_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sugar_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="sugar_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Vermicelli
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Vermicelli</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="vermicelli_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="vermicelli_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="vermicelli_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="vermicelli_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Peanuts
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Peanuts</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="peanuts_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="peanuts_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="peanuts_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="peanuts_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Cashew
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Cashew</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="cashew_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="cashew_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="cashew_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="cashew_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Kishmish
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Kishmish</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kishmish_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="kishmish_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kishmish_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="kishmish_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Sev
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Sev</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sev_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="sev_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sev_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="sev_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Corn starch
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Corn starch</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="corn_starch_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="corn_starch_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="corn_starch_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="corn_starch_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Mustard
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Mustard</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="mustard_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="mustard_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="mustard_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="mustard_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Salt
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Salt</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="salt_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="salt_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="salt_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="salt_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Instant Coffee Powder
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-4">Instant Coffee Powder</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="instant_coffee_powder_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="instant_coffee_powder_g" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="instant_coffee_powder_pkt" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="instant_coffee_powder_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                        <span
-                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <div class="col-span-6 sm:col-span-2 mt-2 sm:mt-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           In Stock
                         </span>
                       </div>
@@ -662,610 +531,415 @@
                 </div>
               </div>
             </div>
+
             <!-- Masala Section -->
             <div class="border border-gray-200 rounded-lg overflow-hidden">
               <button class="category-header w-full px-6 py-4 text-left font-medium flex items-center justify-between"
                 data-category="masala" type="button">
-                <span class="text-lg">
-                  Masala
-                </span>
-                <i class="ri-arrow-down-s-line ri-lg category-icon">
-                </i>
+                <span class="text-lg">Masala</span>
+                <i class="ri-arrow-down-s-line ri-lg category-icon"></i>
               </button>
-              <div class="category-content hidden px-6 py-4 bg-white" id="masala-content">
+              <div class="category-content hidden px-4 md:px-6 py-4 bg-white" id="masala-content">
                 <div class="grid grid-cols-1 gap-4">
                   <div class="masala-items space-y-4">
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 font-medium">
-                        Item
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 font-medium">
+                      <div class="col-span-6 sm:col-span-6">Item</div>
+                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Weight (g)</div>
+                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Packets</div>
+                      <div class-="col-span-3 text-sm text-gray-600 block sm:hidden">Qty/Pkt</div>
+                    </div>
+                    <!-- Item Row Template for Masala -->
+                    <script type="text/template" id="masala-item-template">
+                      <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                        <div class="col-span-6 sm:col-span-6 flex items-center">{itemName}</div>
+                        <div class="col-span-3 sm:col-span-3">
+                          <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="{name_g}" placeholder="0" type="number" />
+                        </div>
+                        <div class="col-span-3 sm:col-span-3">
+                          <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="{name_pkt}" placeholder="0" type="number" />
+                        </div>
                       </div>
-                      <div class="col-span-3 text-sm text-gray-600">
-                        Weight (g)
+                    </script>
+                    <!-- Masala Items (Dynamic rendering or hardcoded) -->
+                    <!-- Example hardcoded item, others would follow this pattern -->
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Red Chilli powder</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="red_chilli_powder_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3 text-sm text-gray-600">
-                        Packets
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="red_chilli_powder_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Red Chilli powder
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Turmeric</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="turmeric_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="red_chilli_powder_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="red_chilli_powder_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="turmeric_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Turmeric
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Coriander Powder</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="coriander_powder_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="turmeric_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="turmeric_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="coriander_powder_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Coriander Powder
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Garam Masala</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="garam_masala_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="coriander_powder_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="coriander_powder_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="garam_masala_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Garam Masala
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Dried red Chillies</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="dried_red_chillies_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="garam_masala_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="garam_masala_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="dried_red_chillies_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Dried red Chillies
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Whole Jeera</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="whole_jeera_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="dried_red_chillies_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="dried_red_chillies_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="whole_jeera_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <!-- More masala items -->
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Whole Jeera
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Jeera Powder</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="jeera_powder_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="whole_jeera_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="whole_jeera_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="jeera_powder_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Jeera Powder
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Ginger Garlic Paste</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-1 focus:ring-primary outline-none" min="0" name="ginger_garlic_paste_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="jeera_powder_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="jeera_powder_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="ginger_garlic_paste_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Ginger Garlic Paste
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Chicken Masala</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="chicken_masala_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="ginger_garlic_paste_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="ginger_garlic_paste_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="chicken_masala_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Chicken Masala
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Kitchen King (everest)</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kitchen_king_everest_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="chicken_masala_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="chicken_masala_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kitchen_king_everest_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Kitchen King (everest)
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Meat Masala</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="meat_masala_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="kitchen_king_everest_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="kitchen_king_everest_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="meat_masala_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Meat Masala
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Sambhar Masala</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sambhar_masala_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="meat_masala_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="meat_masala_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="sambhar_masala_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Sambhar Masala
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Kulambu</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kulambu_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="sambhar_masala_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="sambhar_masala_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kulambu_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Kulambu
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Chicken Kebab</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="chicken_kebab_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="kulambu_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="kulambu_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="chicken_kebab_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Chicken Kebab
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Elaichi (Cardamom)</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="elaichi_cardamom_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="chicken_kebab_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="chicken_kebab_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="elaichi_cardamom_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Elaichi (Cardamom)
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Dalchini (Cinnamon)</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="dalchini_cinnamon_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="elaichi_cardamom_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="elaichi_cardamom_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="dalchini_cinnamon_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Dalchini (Cinnamon)
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Laung (Cloves)</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="laung_cloves_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="dalchini_cinnamon_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="dalchini_cinnamon_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="laung_cloves_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Laung (Cloves)
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Kali Mirch (Black Pepper)</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kali_mirch_black_pepper_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="laung_cloves_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="laung_cloves_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kali_mirch_black_pepper_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Kali Mirch (Black Pepper)
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Chakri Fool (Star Anise)</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="chakri_fool_star_anise_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="kali_mirch_black_pepper_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="kali_mirch_black_pepper_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="chakri_fool_star_anise_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Chakri Fool (Star Anise)
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Badi Elaichi (Black Cardamom)</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="badi_elaichi_black_cardamom_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="chakri_fool_star_anise_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="chakri_fool_star_anise_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="badi_elaichi_black_cardamom_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Badi Elaichi (Black Cardamom)
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Tez Patta (Bay leaves)</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="tez_patta_bay_leaves_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="badi_elaichi_black_cardamom_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="badi_elaichi_black_cardamom_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="tez_patta_bay_leaves_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Tez Patta (Bay leaves)
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Shahi Jeera</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="shahi_jeera_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="tez_patta_bay_leaves_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="tez_patta_bay_leaves_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="shahi_jeera_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Shahi Jeera
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Heeng (Asafoetida)</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="heeng_asafoetida_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="shahi_jeera_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="shahi_jeera_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="heeng_asafoetida_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Heeng (Asafoetida)
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Saunf</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="saunf_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="heeng_asafoetida_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="heeng_asafoetida_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="saunf_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Saunf
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Ajwain</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="ajwain_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="saunf_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="saunf_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="ajwain_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Jeera Powder
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Kasuri Methi</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-1 focus:ring-primary outline-none" min="0" name="kasuri_methi_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="jeera_powder_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="jeera_powder_pkt" placeholder="0" type="number" />
-                      </div>
-                    </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Ajwain
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="ajwain_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="ajwain_pkt" placeholder="0" type="number" />
-                      </div>
-                    </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Kasuri Methi
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="kasuri_methi_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="kasuri_methi_pkt" placeholder="0" type="number" />
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="kasuri_methi_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
             <!-- Condiments Section -->
             <div class="border border-gray-200 rounded-lg overflow-hidden">
               <button class="category-header w-full px-6 py-4 text-left font-medium flex items-center justify-between"
                 data-category="condiments" type="button">
-                <span class="text-lg">
-                  Condiments
-                </span>
-                <i class="ri-arrow-down-s-line ri-lg category-icon">
-                </i>
+                <span class="text-lg">Condiments</span>
+                <i class="ri-arrow-down-s-line ri-lg category-icon"></i>
               </button>
-              <div class="category-content hidden px-6 py-4 bg-white" id="condiments-content">
+              <div class="category-content hidden px-4 md:px-6 py-4 bg-white" id="condiments-content">
                 <div class="grid grid-cols-1 gap-4">
                   <div class="condiments-items space-y-4">
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6 font-medium">
-                        Item
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 font-medium">
+                      <div class="col-span-6 sm:col-span-6">Item</div>
+                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Weight (g)</div>
+                      <div class="col-span-3 text-sm text-gray-600 hidden sm:block">Packets</div>
+                      <div class-="col-span-3 text-sm text-gray-600 block sm:hidden">Qty/Pkt</div>
+                    </div>
+                    <!-- Item Row Template for Condiments -->
+                    <script type="text/template" id="condiment-item-template">
+                      <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                        <div class="col-span-6 sm:col-span-6 flex items-center">{itemName}</div>
+                        <div class="col-span-3 sm:col-span-3">
+                          <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="{name_g}" placeholder="0" type="number" />
+                        </div>
+                        <div class="col-span-3 sm:col-span-3">
+                          <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="{name_pkt}" placeholder="0" type="number" />
+                        </div>
                       </div>
-                      <div class="col-span-3 text-sm text-gray-600">
-                        Weight (g)
+                    </script>
+                    <!-- Condiments Items (Dynamic rendering or hardcoded) -->
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Ketchup</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="ketchup_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3 text-sm text-gray-600">
-                        Packets
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="ketchup_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Ketchup
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Mayo</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="mayo_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="ketchup_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="ketchup_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="mayo_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Mayo
+                    <div class="item-row grid grid-cols-6 sm:grid-cols-12 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-6 sm:col-span-6">Pickle</div>
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="pickle_g" placeholder="0" type="number" />
                       </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="mayo_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="mayo_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
-                      </div>
-                    </div>
-                    <div class="item-row grid grid-cols-12 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-6">
-                        Pickle
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="pickle_g" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-3">
-                        <input
-                          class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                          min="0" name="pickle_pkt" placeholder="0" type="number" />
-                      </div>
-                      <div class="col-span-2">
+                      <div class="col-span-3 sm:col-span-3">
+                        <input class="w-full border-gray-300 rounded-button px-3 py-1.5 text-sm border focus:border-primary focus:ring-1 focus:ring-primary outline-none" min="0" name="pickle_pkt" placeholder="0" type="number" />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
             <!-- Disposables Section -->
             <div class="border border-gray-200 rounded-lg overflow-hidden">
               <button class="category-header w-full px-6 py-4 text-left font-medium flex items-center justify-between"
                 data-category="disposables" type="button">
-                <span class="text-lg">
-                  Disposables
-                </span>
-                <i class="ri-arrow-down-s-line ri-lg category-icon">
-                </i>
+                <span class="text-lg">Disposables</span>
+                <i class="ri-arrow-down-s-line ri-lg category-icon"></i>
               </button>
-              <div class="category-content hidden px-6 py-4 bg-white" id="disposables-content">
+              <div class="category-content hidden px-4 md:px-6 py-4 bg-white" id="disposables-content">
                 <div class="grid grid-cols-1 gap-4">
                   <div class="disposables-items space-y-4">
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4 font-medium">
-                        Item
-                      </div>
-                      <div class="col-span-2 text-sm text-gray-600">
-                        In Stock
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 font-medium">
+                      <div class="col-span-4">Item</div>
+                      <div class="col-span-2 text-sm text-gray-600">In Stock</div>
                     </div>
-                    <div
-                      class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100 hover:bg-blue-50 transition-colors duration-150">
-                      <div class="col-span-4">
-                        Juice cups
+                    <!-- Item Row Template for Disposables -->
+                    <script type="text/template" id="disposable-item-template">
+                      <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 hover:bg-blue-50 transition-colors duration-150">
+                        <div class="col-span-4 flex items-center">{itemName}</div>
+                        <div class="col-span-2">
+                          <label class="custom-toggle">
+                            <input class="toggle-input" name="{name}" type="checkbox" {checked} />
+                            <span class="toggle-slider"></span>
+                          </label>
+                        </div>
                       </div>
+                    </script>
+                    <!-- Disposables Items (Dynamic rendering or hardcoded) -->
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 hover:bg-blue-50 transition-colors duration-150">
+                      <div class="col-span-4">Juice cups</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="juice_cups" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Tea cups
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Tea cups</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="tea_cups" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Paper Napkins
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Paper Napkins</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="paper_napkins" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Kitchen cloth towels
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Kitchen cloth towels</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="kitchen_cloth_towels" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Serving gloves
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Serving gloves</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="serving_gloves" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Paper plates
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Paper plates</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="paper_plates" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
@@ -1273,96 +947,85 @@
                 </div>
               </div>
             </div>
+
             <!-- Packaging Material Section -->
             <div class="border border-gray-200 rounded-lg overflow-hidden">
               <button class="category-header w-full px-6 py-4 text-left font-medium flex items-center justify-between"
                 data-category="packaging" type="button">
-                <span class="text-lg">
-                  Packaging Material
-                </span>
-                <i class="ri-arrow-down-s-line ri-lg category-icon">
-                </i>
+                <span class="text-lg">Packaging Material</span>
+                <i class="ri-arrow-down-s-line ri-lg category-icon"></i>
               </button>
-              <div class="category-content hidden px-6 py-4 bg-white" id="packaging-content">
+              <div class="category-content hidden px-4 md:px-6 py-4 bg-white" id="packaging-content">
                 <div class="grid grid-cols-1 gap-4">
                   <div class="packaging-items space-y-4">
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4 font-medium">
-                        Item
-                      </div>
-                      <div class="col-span-2 text-sm text-gray-600">
-                        In Stock
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 font-medium">
+                      <div class="col-span-4">Item</div>
+                      <div class="col-span-2 text-sm text-gray-600">In Stock</div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Foil bags 10x14
+                    <!-- Item Row Template for Packaging Material -->
+                    <script type="text/template" id="packaging-item-template">
+                      <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                        <div class="col-span-4 flex items-center">{itemName}</div>
+                        <div class="col-span-2">
+                          <label class="custom-toggle">
+                            <input class="toggle-input" name="{name}" type="checkbox" {checked} />
+                            <span class="toggle-slider"></span>
+                          </label>
+                        </div>
                       </div>
+                    </script>
+                    <!-- Packaging Material Items (Dynamic rendering or hardcoded) -->
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Foil bags 10x14</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="foil_bags_10x14" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Foil bags 7x9
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Foil bags 7x9</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="foil_bags_7x9" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Rubber bands
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Rubber bands</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="rubber_bands" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Sandwich wrap
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Sandwich wrap</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="sandwich_wrap" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Aluminium foil
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Aluminium foil</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="aluminium_foil" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Polythene bags
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Polythene bags</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="polythene_bags" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
@@ -1370,193 +1033,157 @@
                 </div>
               </div>
             </div>
+
             <!-- Cleaning Products Section -->
             <div class="border border-gray-200 rounded-lg overflow-hidden">
               <button class="category-header w-full px-6 py-4 text-left font-medium flex items-center justify-between"
                 data-category="cleaning" type="button">
-                <span class="text-lg">
-                  Cleaning Products
-                </span>
-                <i class="ri-arrow-down-s-line ri-lg category-icon">
-                </i>
+                <span class="text-lg">Cleaning Products</span>
+                <i class="ri-arrow-down-s-line ri-lg category-icon"></i>
               </button>
-              <div class="category-content hidden px-6 py-4 bg-white" id="cleaning-content">
+              <div class="category-content hidden px-4 md:px-6 py-4 bg-white" id="cleaning-content">
                 <div class="grid grid-cols-1 gap-4">
                   <div class="cleaning-items space-y-4">
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4 font-medium">
-                        Item
-                      </div>
-                      <div class="col-span-2 text-sm text-gray-600">
-                        In Stock
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100 font-medium">
+                      <div class="col-span-4">Item</div>
+                      <div class="col-span-2 text-sm text-gray-600">In Stock</div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Dish liquid (Vim)
+                    <!-- Item Row Template for Cleaning Products -->
+                    <script type="text/template" id="cleaning-item-template">
+                      <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                        <div class="col-span-4 flex items-center">{itemName}</div>
+                        <div class="col-span-2">
+                          <label class="custom-toggle">
+                            <input class="toggle-input" name="{name}" type="checkbox" {checked} />
+                            <span class="toggle-slider"></span>
+                          </label>
+                        </div>
                       </div>
+                    </script>
+                    <!-- Cleaning Products Items (Dynamic rendering or hardcoded) -->
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Dish liquid (Vim)</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="dish_liquid_vim" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Dish bar soap
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Dish bar soap</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="dish_bar_soap" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Handwash liquid
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Handwash liquid</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="handwash_liquid" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Garbage bags
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Garbage bags</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="garbage_bags" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Phenyl floor cleaner
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Phenyl floor cleaner</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="phenyl_floor_cleaner" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <!-- More cleaning items -->
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Dish scrubber
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Dish scrubber</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="dish_scrubber" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Disposable kitchen wipe roll
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Disposable kitchen wipe roll</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="disposable_kitchen_wipe_roll" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Mop
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Mop</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="mop" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Domex harpic
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Domex harpic</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="domex_harpic" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Colin spray
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Colin spray</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="colin_spray" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Cleaning Gloves
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Cleaning Gloves</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="cleaning_gloves" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Floor Wipers
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Floor Wipers</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="floor_wipers" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Plastic broom
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Plastic broom</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="plastic_broom" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
-                    <div class="item-row grid grid-cols-6 gap-4 items-center py-2 border-b border-gray-100">
-                      <div class="col-span-4">
-                        Large Floor mop
-                      </div>
+                    <div class="item-row grid grid-cols-6 gap-2 sm:gap-4 items-center py-2 border-b border-gray-100">
+                      <div class="col-span-4">Large Floor mop</div>
                       <div class="col-span-2">
                         <label class="custom-toggle">
                           <input class="toggle-input" name="large_floor_mop" type="checkbox" />
-                          <span class="toggle-slider">
-                          </span>
+                          <span class="toggle-slider"></span>
                         </label>
                       </div>
                     </div>
@@ -1566,75 +1193,70 @@
             </div>
           </div>
         </div>
+
+        <!-- Additional Notes Section -->
         <div class="bg-gradient-to-br from-white to-blue-50 rounded-lg shadow-md p-6 mb-8 border border-blue-100">
-          <h2 class="text-xl font-bold mb-4">
-            Additional Notes
-          </h2>
+          <h2 class="text-xl font-bold mb-4">Additional Notes</h2>
           <textarea
             class="w-full h-32 border border-gray-300 rounded-button px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
             name="notes" placeholder="Add any additional notes or special requirements here..."></textarea>
         </div>
-        <div class="flex justify-between items-center mb-8">
-          <div class="flex items-center space-x-4">
+
+        <!-- Form Action Buttons -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0">
+          <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
             <button
-              class="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-button hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 whitespace-nowrap"
+              class="w-full sm:w-auto bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-button hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 whitespace-nowrap"
               id="save-draft" type="button">
-              <i class="ri-save-line mr-2">
-              </i>
+              <i class="ri-save-line mr-2"></i>
               Save Draft
             </button>
             <button
-              class="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-button hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 whitespace-nowrap"
+              class="w-full sm:w-auto bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-button hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 whitespace-nowrap"
               id="export-pdf" type="button">
-              <i class="ri-file-download-line mr-2">
-              </i>
+              <i class="ri-file-download-line mr-2"></i>
               Export to PDF
             </button>
             <button type="button" id="reset-form"
-              class="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-button hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 whitespace-nowrap"">
-  Reset Form
-</button>
+              class="w-full sm:w-auto bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-button hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 whitespace-nowrap">
+              Reset Form
+            </button>
           </div>
-          <div>
+          <div class="w-full sm:w-auto">
             <button
-              class=" bg-primary text-white px-8 py-2 rounded-button hover:bg-blue-600 focus:outline-none focus:ring-2
-              focus:ring-primary focus:ring-opacity-50 whitespace-nowrap" type="button">
-              <i class="ri-send-plane-line mr-2">
-              </i>
+              class="w-full sm:w-auto bg-primary text-white px-8 py-2 rounded-button hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 whitespace-nowrap" type="button">
+              <i class="ri-send-plane-line mr-2"></i>
               Submit Inventory
             </button>
           </div>
         </div>
       </form>
+    </div>
   </main>
-  <footer class="bg-gray-800 text-white py-8">
+
+  <!-- Footer Section -->
+  <footer class="bg-gray-800 text-white py-6 md:py-8">
     <div class="container mx-auto px-4">
-      <div class="flex flex-col md:flex-row justify-between items-center">
+      <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
         <div class="mb-4 md:mb-0">
-          <p class="text-sm">
-            © 2025 Kitchen Inventory System. All rights reserved.
-          </p>
+          <p class="text-sm">© 2025 Kitchen Inventory System. All rights reserved.</p>
         </div>
         <div class="flex items-center space-x-4">
           <a class="text-gray-300 hover:text-white" href="#">
-            <i class="ri-question-line">
-            </i>
-            Help
+            <i class="ri-question-line mr-1"></i>Help
           </a>
           <a class="text-gray-300 hover:text-white" href="#">
-            <i class="ri-settings-line">
-            </i>
-            Settings
+            <i class="ri-settings-line mr-1"></i>Settings
           </a>
           <a class="text-gray-300 hover:text-white" href="#">
-            <i class="ri-history-line">
-            </i>
-            History
+            <i class="ri-history-line mr-1"></i>History
           </a>
         </div>
       </div>
     </div>
   </footer>
+
+  <!-- Scroll to Top/Bottom Buttons -->
   <div class="fixed bottom-6 right-6 flex flex-col space-y-2 z-50" id="scroll-buttons">
     <button class="bg-primary text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition" id="scroll-up">
       <i class="ri-arrow-up-line ri-lg"></i>
@@ -1643,6 +1265,8 @@
       <i class="ri-arrow-down-line ri-lg"></i>
     </button>
   </div>
+
+  <!-- JavaScript for interactivity -->
   <script id="category-toggle-script">
     document.addEventListener('DOMContentLoaded', function () {
       // Category toggle functionality
@@ -1663,9 +1287,11 @@
           }
         });
       });
+
       // Expand/Collapse All functionality
       const expandAllBtn = document.getElementById('expand-all');
       const collapseAllBtn = document.getElementById('collapse-all');
+
       expandAllBtn.addEventListener('click', function () {
         document.querySelectorAll('.category-content').forEach(content => {
           content.classList.remove('hidden');
@@ -1675,6 +1301,7 @@
           icon.classList.add('ri-arrow-up-s-line');
         });
       });
+
       collapseAllBtn.addEventListener('click', function () {
         document.querySelectorAll('.category-content').forEach(content => {
           content.classList.add('hidden');
@@ -1686,6 +1313,7 @@
       });
     });
   </script>
+
   <script id="search-functionality-script">
     document.addEventListener('DOMContentLoaded', function () {
       const searchInput = document.getElementById('search-items');
@@ -1693,8 +1321,8 @@
         const searchTerm = this.value.toLowerCase();
         const allItems = document.querySelectorAll('.item-row');
         allItems.forEach(item => {
-          if (item.querySelector('.col-span-4')) {
-            const itemName = item.querySelector('.col-span-4').textContent.toLowerCase();
+          if (item.querySelector('.col-span-6')) { // Changed from col-span-4 to col-span-6 for mobile compatibility
+            const itemName = item.querySelector('.col-span-6').textContent.toLowerCase();
             if (itemName.includes(searchTerm) || searchTerm === '') {
               item.style.display = '';
             } else {
@@ -1702,22 +1330,31 @@
             }
           }
         });
+
         // Show category if it has visible items
         document.querySelectorAll('.category-content').forEach(category => {
           const visibleItems = Array.from(category.querySelectorAll('.item-row')).filter(item => {
             return item.style.display !== 'none' && !item.querySelector('.font-medium');
           });
+          // Ensure category header is visible if any items are visible or search is empty
+          const categoryButton = document.querySelector(`[data-category="${category.id.replace('-content', '')}"]`);
+          const icon = categoryButton.querySelector('.category-icon');
+
           if (visibleItems.length > 0 || searchTerm === '') {
             category.classList.remove('hidden');
-            const categoryButton = document.querySelector(`[data-category="${category.id.replace('-content', '')}"]`);
-            const icon = categoryButton.querySelector('.category-icon');
             icon.classList.remove('ri-arrow-down-s-line');
             icon.classList.add('ri-arrow-up-s-line');
+          } else {
+             // If no visible items and search term is not empty, hide the category content
+            category.classList.add('hidden');
+            icon.classList.remove('ri-arrow-up-s-line');
+            icon.classList.add('ri-arrow-down-s-line');
           }
         });
       });
     });
   </script>
+
   <script id="form-validation-script">
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.getElementById("inventory-form");
@@ -1769,22 +1406,46 @@
                 form.reset(); // optional: clear the form
               });
             } else {
-              alert("Form submission failed. Please try again.");
-              submitButton.disabled = false;
-              submitButton.innerHTML = '<i class="ri-send-plane-line mr-2"></i> Submit Inventory';
+              // Replaced alert with custom modal for error
+              const errorMessage = document.createElement('div');
+              errorMessage.className = 'fixed inset-0 flex items-center justify-center z-50';
+              errorMessage.innerHTML = `
+                <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                <div class="bg-white rounded-lg p-8 max-w-md relative z-10">
+                  <div class="flex items-center justify-center w-12 h-12 rounded-full bg-red-100 text-red-500 mx-auto mb-4">
+                    <i class="ri-close-line ri-2x"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-center mb-2">Submission Failed</h3>
+                  <p class="text-gray-600 text-center mb-6">Form submission failed. Please try again.</p>
+                  <div class="flex justify-center">
+                    <button class="bg-primary text-white px-6 py-2 rounded-button hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 whitespace-nowrap close-modal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              `;
+              document.body.appendChild(errorMessage);
+
+              const closeErrorButton = errorMessage.querySelector('.close-modal');
+              closeErrorButton.addEventListener('click', function() {
+                errorMessage.remove();
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="ri-send-plane-line mr-2"></i> Submit Inventory';
+              });
             }
           });
         });
       }
     });
   </script>
+
   <script id="date-and-form-id-script">
     // Generate a new form ID
-      function generateFormId() {
-        const today = new Date();
-        return today.toISOString().slice(2, 10).replace(/-/g, '') +
-          String(Math.floor(Math.random() * 1000)).padStart(3, '0');
-      }
+    function generateFormId() {
+      const today = new Date();
+      return today.toISOString().slice(2, 10).replace(/-/g, '') +
+        String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
       // Set current date
@@ -1804,9 +1465,9 @@
         localStorage.setItem('currentFormId', storedFormId);
       }
       formIdEl.textContent = storedFormId;
-
     });
   </script>
+
   <script>
     document.getElementById('scroll-up').addEventListener('click', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1828,7 +1489,30 @@
         formObj[key] = value;
       });
       localStorage.setItem('inventoryDraft', JSON.stringify(formObj));
-      alert('Draft saved!');
+      // Replaced alert with custom modal for draft saved
+      const saveDraftMessage = document.createElement('div');
+      saveDraftMessage.className = 'fixed inset-0 flex items-center justify-center z-50';
+      saveDraftMessage.innerHTML = `
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="bg-white rounded-lg p-8 max-w-md relative z-10">
+          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 text-blue-500 mx-auto mb-4">
+            <i class="ri-save-line ri-2x"></i>
+          </div>
+          <h3 class="text-xl font-bold text-center mb-2">Draft Saved!</h3>
+          <p class="text-gray-600 text-center mb-6">Your progress has been saved as a draft.</p>
+          <div class="flex justify-center">
+            <button class="bg-primary text-white px-6 py-2 rounded-button hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 whitespace-nowrap close-modal">
+              Close
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(saveDraftMessage);
+
+      const closeSaveDraftButton = saveDraftMessage.querySelector('.close-modal');
+      closeSaveDraftButton.addEventListener('click', function() {
+        saveDraftMessage.remove();
+      });
     });
 
     // Auto-save draft on any input or change
@@ -1842,6 +1526,7 @@
         localStorage.setItem('inventoryDraft', JSON.stringify(formObj));
       })
     );
+
     // Load draft
     window.addEventListener('DOMContentLoaded', () => {
       const savedData = localStorage.getItem('inventoryDraft');
@@ -1849,10 +1534,17 @@
         const draft = JSON.parse(savedData);
         Object.keys(draft).forEach(key => {
           const field = form.elements[key];
-          if (field) field.value = draft[key];
+          if (field) {
+            if (field.type === 'checkbox') {
+              field.checked = (draft[key] === 'on'); // Handle checkbox values correctly
+            } else {
+              field.value = draft[key];
+            }
+          }
         });
       }
     });
+
     // Clear draft on submit
     form.addEventListener('submit', () => {
       localStorage.removeItem('inventoryDraft');
@@ -1861,6 +1553,7 @@
 
     // Export to PDF
     document.getElementById('export-pdf').addEventListener('click', () => {
+      // Ensure all category content is visible before PDF export
       document.querySelectorAll('.category-content').forEach(el => el.classList.remove('hidden'));
       const element = document.getElementById('pdf-export-container');
       const opt = {
@@ -1874,31 +1567,54 @@
       html2pdf().set(opt).from(element).save();
     });
   </script>
+
   <script>
     document.getElementById('reset-form').addEventListener('click', () => {
       const form = document.getElementById('inventory-form');
       form.reset(); // Resets all standard inputs
 
-      // Reset the form ID 
-      // Generate and assign new form ID
+      // Reset the form ID
       const newFormId = generateFormId();
       document.getElementById('form-id').textContent = newFormId;
       localStorage.setItem('currentFormId', newFormId);
+
       // Manually uncheck all toggle switches
       form.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
 
       // Clear localStorage draft
       localStorage.removeItem('inventoryDraft');
-      // Clear form ID
-      localStorage.removeItem('currentFormId');
+      localStorage.removeItem('currentFormId'); // Clear the form ID on reset
 
       // Reload to apply changes visually and programmatically
+      // This is often a quick way to ensure all JS state is reset,
+      // but a more controlled reset might be better in complex apps.
       location.reload();
 
-      alert('Form has been reset.');
+      // Replaced alert with custom modal for form reset
+      const resetMessage = document.createElement('div');
+      resetMessage.className = 'fixed inset-0 flex items-center justify-center z-50';
+      resetMessage.innerHTML = `
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="bg-white rounded-lg p-8 max-w-md relative z-10">
+          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 text-gray-500 mx-auto mb-4">
+            <i class="ri-refresh-line ri-2x"></i>
+          </div>
+          <h3 class="text-xl font-bold text-center mb-2">Form Reset!</h3>
+          <p class="text-gray-600 text-center mb-6">The form has been successfully reset.</p>
+          <div class="flex justify-center">
+            <button class="bg-primary text-white px-6 py-2 rounded-button hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 whitespace-nowrap close-modal">
+              Close
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(resetMessage);
+
+      const closeResetButton = resetMessage.querySelector('.close-modal');
+      closeResetButton.addEventListener('click', function() {
+        resetMessage.remove();
+      });
     });
   </script>
-
 </body>
-
 </html>
